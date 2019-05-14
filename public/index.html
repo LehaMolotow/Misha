@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smart Grow</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="range.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://use.fontawesome.com/fd9dba5260.js"></script>
+	<script src="range.js"></script>
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+<body>
+
+<div class="container">
+	<form id="input_form">
+	<h2 align="center">Световой режим</h2>
+		 <div class="well">
+			<div class="slider-wrapper slider-primary slider-strips slider-ghost">
+				<input id="light_slider" name="light_slider" class="input-range" type="text" data-slider-step="1" data-slider-value="12,
+				 24" data-slider-min="0" data-slider-max="24" data-slider-range="true" data-slider-tooltip_split="true" />
+			</div>
+		 </div>
+	<h2 align="center">Полив</h2>
+		 <div class="well">
+			<div class="slider-wrapper slider-primary slider-strips slider-ghost">
+				<input class="input-range" name="pump_slider" type="text" data-slider-step="1" data-slider-value="12,
+				 24" data-slider-min="0" data-slider-max="24" data-slider-range="true" data-slider-tooltip_split="true" />
+			</div>
+		 </div>
+	<h2 align="center">Вентиляция</h2>
+		 <div class="well">
+			<div class="slider-wrapper slider-primary slider-strips slider-ghost">
+				<input class="input-range" name="wind_slider" type="text" data-slider-step="1" data-slider-value="12,
+				 24" data-slider-min="0" data-slider-max="24" data-slider-range="true" data-slider-tooltip_split="true" />
+			</div>
+		 </div>
+	</form>
+	<button type="button" onclick="loadDoc()" class="btn btn-info">Применить</button>
+</div>
+
+<script>
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    var formData = new FormData($('#input_form')[0]);
+    var object = {};
+    formData.forEach(function(value, key){
+        object[key] = value;
+    });
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+        }
+        else {
+
+        }
+    };
+      xhttp.open("post", "/settings", true);
+      var to_server = {'light_on': object['light_slider'].split(",")[0],
+		               'light_off': object['light_slider'].split(",")[1],
+		  			   'pump_on': object['pump_slider'].split(",")[0],
+		               'pump_off': object['pump_slider'].split(",")[1],
+		               'wind_on': object['wind_slider'].split(",")[0],
+		               'wind_off': object['wind_slider'].split(",")[1]};
+	  var json = JSON.stringify(to_server);
+
+      xhttp.send(json);
+}
+</script>
+
+
+
+</body>
+</html>

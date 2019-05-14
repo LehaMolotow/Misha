@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smart Grow</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <script src="/static/jquery.min.js"></script>
+  <script src="/static/bootstrap.min.js"></script>
+  <link href="/static/favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+<body>
+
+<div class="container">
+  <h2>Дратути!</h2>
+  <p>Авторизуйтесь для продолжения работы</p>
+  <form id="login_form" action="auth" method="post">
+    <input type="text" name="usr" class="form-control" placeholder="Email" required autofocus>
+    <input type="password" name="ups" class="form-control" placeholder="Password" required>
+  </form>
+    <button type="submit" onclick="loadDoc()" class="btn btn-primary">Войти</button>
+
+
+</div>
+
+<script>
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    var formData = new FormData($('#login_form')[0]);
+    var object = {};
+    formData.forEach(function(value, key){
+        object[key] = value;
+    });
+    var json = JSON.stringify(object);
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+         window.location.replace('static/index.html');
+        }
+        else {
+
+        }
+    };
+      xhttp.open("post", "auth", true);
+      xhttp.send(json);
+}
+</script>
+
+</body>
+</html>
